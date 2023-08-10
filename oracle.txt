@@ -1,0 +1,3 @@
+oracle.fiap.com.br
+port:1521
+sid: orcl
