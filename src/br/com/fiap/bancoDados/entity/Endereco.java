@@ -13,7 +13,7 @@ public class Endereco {
     public String toString() {
         return "  Endereço: " +
                 "\n---------------------------------" +
-                "\n     Rua: " + getLogradouro() +
+                "\n     Rua: " + getLocalidade() +
                 "\n     Número: " + getNumero() +
                 "\n     Complemento: " + getComplemento() +
                 "\n     Bairro: " + getBairro() +
