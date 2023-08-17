@@ -1,13 +1,14 @@
-package br.com.fiap.bancoDados.down;
+package br.com.fiap.bancoDados.dao;
 
-import br.com.fiap.bancoDados.down.GerenciadorBancoDados;
 import br.com.fiap.bancoDados.entity.Endereco;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EnderecoDown {
+public class
+EnderecoDao {
     private Connection conexao;
     public void inserir(Endereco endereco) throws SQLException {
         conexao = GerenciadorBancoDados.obterConexao();
@@ -47,4 +48,44 @@ public class EnderecoDown {
         conexao.close();
         comandoSql.close();
     }
+    public void excluir(int id) {
+        conexao = GerenciadorBancoDados.obterConexao();
+        PreparedStatement comandosql = null;
+        String sql = "delete from endereco where idEndereco = ?";
+        try {
+            comandosql = conexao.prepareStatement(sql);
+            comandosql.setInt(1, id);
+            comandosql.executeUpdate();
+            conexao.close();
+            comandosql.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Endereco buscarPorId(int id) {
+        Endereco endereco = new Endereco();
+        PreparedStatement comandoSql = null;
+        conexao = GerenciadorBancoDados.obterConexao();
+        try {
+            String sql = "Select * from endereco where idendereco = ?";
+            comandoSql = conexao.prepareStatement(sql);
+            comandoSql.setInt(1, id);
+            ResultSet resultSet = comandoSql.executeQuery();
+            if (resultSet.next()) {
+                endereco.setId(resultSet.getInt(1));
+                endereco.setCep(resultSet.getString(2));
+                endereco.setLogradouro(resultSet.getString(3));
+                endereco.setComplemento(resultSet.getString(4));
+                endereco.setBairro((resultSet.getString(5)));
+                endereco.setLocalidade(resultSet.getString(6));
+                endereco.setUf(resultSet.getString(7));
+                endereco.setNumero(resultSet.getString(8));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return endereco;
+    }
+
 }

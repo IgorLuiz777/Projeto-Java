@@ -1,6 +1,6 @@
 package br.com.fiap.bancoDados.teste;
 
-import br.com.fiap.bancoDados.down.EnderecoDown;
+import br.com.fiap.bancoDados.dao.EnderecoDao;
 import br.com.fiap.bancoDados.entity.Endereco;
 
 import java.sql.SQLException;
@@ -22,30 +22,32 @@ public class Teste {
                         "---------------------------------");
     }
 
-    public void cadastrar(Endereco endereco, Scanner input) {
+    public static Endereco preencerDados(Endereco endereco) {
+        Scanner input = new Scanner(System.in);
         System.out.println("Digite o cep: ");
-        endereco.setCep(input.next());
+        endereco.setCep(input.nextLine());
 
         System.out.println("Digite a rua: ");
-        endereco.setLogradouro(input.next());
+        endereco.setLogradouro(input.nextLine());
 
         System.out.println("Digite o número: ");
-        endereco.setNumero(input.next());
+        endereco.setNumero(input.nextLine());
 
         System.out.println("Digite o complemento (se não houver apenas pule): ");
-        endereco.setComplemento(input.next());
+        endereco.setComplemento(input.nextLine());
 
         System.out.println("Digite o bairro: ");
-        endereco.setBairro(input.next());
+        endereco.setBairro(input.nextLine());
 
         System.out.println("Digite a cidade: ");
-        endereco.setLocalidade(input.next());
+        endereco.setLocalidade(input.nextLine());
 
         System.out.println("Digite a sigla do estado: ");
-        endereco.setUf(input.next());
+        endereco.setUf(input.nextLine());
 
         System.out.println("Digite o Id: ");
         endereco.setId(input.nextInt());
+        return endereco;
     }
 
     public static void main(String[] args) {
@@ -53,12 +55,46 @@ public class Teste {
         int opcao;
 
         Endereco endereco = new Endereco();
-        EnderecoDown enderecoDown = new EnderecoDown();
+        EnderecoDao enderecoDao = new EnderecoDao();
 
         Teste teste = new Teste();
 
         teste.menu();
         opcao = input.nextInt();
+        switch (opcao) {
+            case 1:
+                teste.preencerDados(endereco);
+                try {
+                    enderecoDao.inserir(endereco);
+                    System.out.println("Endereço cadastrado!!");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case 2:
+                try {
+                    teste.preencerDados(endereco);
+                    enderecoDao.alterar(endereco);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            case 3:
+                System.out.println("Digite o id do endereço que será excluído: ");
+                int id = input.nextInt();
+                enderecoDao.buscarPorId(id);
+                System.out.println();
+                break;
+
+            case 4:
+                System.out.println("Digite o id do endereço que será exibido: ");
+                id = input.nextInt();
+                endereco = enderecoDao.buscarPorId(id);
+                System.out.println(endereco.toString());
+                break;
+            default:
+                System.out.println("Opção incorreta!! Tente Novamente!!");
+        }
 
 
     }

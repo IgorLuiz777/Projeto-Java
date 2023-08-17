@@ -1,4 +1,4 @@
-package br.com.fiap.bancoDados.down;
+package br.com.fiap.bancoDados.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

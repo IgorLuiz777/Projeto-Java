@@ -1,6 +1,6 @@
 package br.com.fiap.bancoDados.teste;
 
-import br.com.fiap.bancoDados.down.GerenciadorBancoDados;
+import br.com.fiap.bancoDados.dao.GerenciadorBancoDados;
 
 public class TesteConexao {
     public static void main(String[] args) {
