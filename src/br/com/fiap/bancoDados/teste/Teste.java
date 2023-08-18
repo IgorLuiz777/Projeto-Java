@@ -4,6 +4,8 @@ import br.com.fiap.bancoDados.dao.EnderecoDao;
 import br.com.fiap.bancoDados.entity.Endereco;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Teste {
@@ -56,6 +58,7 @@ public class Teste {
 
         Endereco endereco = new Endereco();
         EnderecoDao enderecoDao = new EnderecoDao();
+        List<Endereco> enderecos = new ArrayList<>();
 
         Teste teste = new Teste();
 
@@ -76,6 +79,7 @@ public class Teste {
                 try {
                     teste.preencerDados(endereco);
                     enderecoDao.alterar(endereco);
+                    System.out.println("Endereço atualizado!!");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -91,6 +95,42 @@ public class Teste {
                 id = input.nextInt();
                 endereco = enderecoDao.buscarPorId(id);
                 System.out.println(endereco.toString());
+                break;
+
+            case 5:
+                String dados = "";
+                System.out.println("Digite o CEP: ");
+                String cep = input.next();
+                enderecos = enderecoDao.buscarPorCep(cep);
+                for (Endereco end : enderecos) {
+                    //end.toString();
+                    dados +=  "\n---------------------------------";
+                    dados +=  "\n     Rua: " + end.getLocalidade();
+                    dados +=  "\n     Número: " + end.getNumero();
+                    dados +=  "\n     Complemento: " + end.getComplemento();
+                    dados +=  "\n     Bairro: " + end.getBairro();
+                    dados +=  "\n     Cidade: " + end.getLocalidade();
+                    dados +=  "\n     UF: " + end.getUf();
+                    dados +=  "\n---------------------------------";
+                }
+                System.out.println(dados);
+                break;
+
+            case 6:
+                dados = "";
+                enderecos = enderecoDao.buscarEnderecos();
+                for (Endereco end: enderecos) {
+                    dados += "=====================================\n";
+                    dados += "Id: " + end.getId() + "\n";
+                    dados += "Endereço: " + end.getLogradouro() + "\n";
+                    dados += "Número: " + end.getNumero() + "\n";
+                    dados += "Complemento: " + end.getComplemento() + "\n";
+                    dados += "CEP: " + end.getCep() + "\n";
+                    dados += "Bairro: " + end.getBairro() + "\n";
+                    dados += "Cidade: " + end.getLogradouro() + "\n";
+                    dados += "UF: " + end.getUf() + "\n";
+                    dados += "=====================================\n";
+                }   System.out.println(dados);
                 break;
             default:
                 System.out.println("Opção incorreta!! Tente Novamente!!");

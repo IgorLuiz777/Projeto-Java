@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class
 EnderecoDao {
@@ -68,7 +70,7 @@ EnderecoDao {
         PreparedStatement comandoSql = null;
         conexao = GerenciadorBancoDados.obterConexao();
         try {
-            String sql = "Select * from endereco where idendereco = ?";
+            String sql = "select * from endereco where idendereco = ?";
             comandoSql = conexao.prepareStatement(sql);
             comandoSql.setInt(1, id);
             ResultSet resultSet = comandoSql.executeQuery();
@@ -87,5 +89,57 @@ EnderecoDao {
         }
         return endereco;
     }
+
+    public List<Endereco> buscarPorCep(String cep) {
+        List<Endereco> enderecos = new ArrayList<>(); //Criar objeto lista
+        PreparedStatement comandoSql = null;
+        conexao = GerenciadorBancoDados.obterConexao();
+        try {
+            String sql = "select * from endereco where cep = ?";
+            comandoSql = conexao.prepareStatement(sql);
+            comandoSql.setString(1, cep);
+            ResultSet resultSet = comandoSql.executeQuery();
+            while (resultSet.next()) {
+                Endereco endereco = new Endereco();
+                endereco.setId(resultSet.getInt(1));
+                endereco.setCep(resultSet.getString(2));
+                endereco.setLogradouro(resultSet.getString(3));
+                endereco.setComplemento(resultSet.getString(4));
+                endereco.setBairro((resultSet.getString(5)));
+                endereco.setLocalidade(resultSet.getString(6));
+                endereco.setUf(resultSet.getString(7));
+                endereco.setNumero(resultSet.getString(8));
+                endereco.toString();
+                enderecos.add(endereco);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return enderecos;
+    }
+    public List<Endereco> buscarEnderecos(){
+        List<Endereco> enderecos = new ArrayList<>(); //Criei o objeto lista
+        PreparedStatement comandoSql = null; //Crio o preparedStatement
+        conexao = GerenciadorBancoDados.obterConexao(); //Abro a conexão
+        try{
+            String sql = "Select * from endereco order by idendereco ";
+            comandoSql = conexao.prepareStatement(sql);
+            ResultSet rs = comandoSql.executeQuery();
+            while (rs.next()){
+                Endereco endereco = new Endereco();
+                endereco.setId(rs.getInt(1));
+                endereco.setCep(rs.getString(2));
+                endereco.setLogradouro(rs.getString(3));
+                endereco.setComplemento(rs.getString(4));
+                endereco.setBairro(rs.getString(5));
+                endereco.setLocalidade(rs.getString(6));
+                endereco.setUf(rs.getString(7));
+                endereco.setNumero(rs.getString(8));
+                // endereco.toString();
+                enderecos.add(endereco);
+            }    }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return enderecos;}
 
 }
