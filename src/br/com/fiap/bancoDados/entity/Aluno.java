@@ -3,8 +3,8 @@ package br.com.fiap.bancoDados.entity;
 public class Aluno {
     private int idAluno;
     private String nome;
-    private int cpf;
-    private int idEnderecoAluno;
+    private String cpf;
+    private Endereco endereco;
 
     public int getIdAluno() {
         return idAluno;
@@ -22,19 +22,19 @@ public class Aluno {
         this.nome = nome;
     }
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public int getIdEnderecoAluno() {
-        return idEnderecoAluno;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setIdEnderecoAluno(int idEnderecoAluno) {
-        this.idEnderecoAluno = idEnderecoAluno;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }
